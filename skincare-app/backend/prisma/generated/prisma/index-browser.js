@@ -184,6 +184,15 @@ exports.Prisma.SkincareLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.Ingredient_ConflictScalarFieldEnum = {
+  id: 'id',
+  ingredientA: 'ingredientA',
+  ingredientB: 'ingredientB',
+  severityLevel: 'severityLevel',
+  warningMessage: 'warningMessage',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -236,13 +245,21 @@ exports.Prisma.SkincareLogOrderByRelevanceFieldEnum = {
   photo: 'photo'
 };
 
+exports.Prisma.Ingredient_ConflictOrderByRelevanceFieldEnum = {
+  ingredientA: 'ingredientA',
+  ingredientB: 'ingredientB',
+  severityLevel: 'severityLevel',
+  warningMessage: 'warningMessage'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
   Profile: 'Profile',
   Recommendation: 'Recommendation',
   Product: 'Product',
-  SkincareLog: 'SkincareLog'
+  SkincareLog: 'SkincareLog',
+  Ingredient_Conflict: 'Ingredient_Conflict'
 };
 
 /**

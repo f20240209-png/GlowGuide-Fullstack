@@ -76,3 +76,12 @@ model SkincareLog {
   photo        String?  @db.LongText
   createdAt    DateTime @default(now())
 }
+
+model Ingredient_Conflict {
+  id             Int      @id @default(autoincrement())
+  ingredientA    String
+  ingredientB    String
+  severityLevel  String // "High", "Medium"
+  warningMessage String   @db.Text
+  createdAt      DateTime @default(now())
+}

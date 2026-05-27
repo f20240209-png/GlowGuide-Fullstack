@@ -238,6 +238,7 @@ const nykaaProducts = [
 {"name":"Shiseido Ultimate Sun Protector Lotion SPF 50+","brand":"Shiseido","price":3200,"originalPrice":4000,"discount":"20%","reviewCount":2000},
 ];
 
+
 async function main() {
   console.log('Clearing existing products...');
   await prisma.product.deleteMany();

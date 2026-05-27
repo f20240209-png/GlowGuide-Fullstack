@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_service.dart';
+import '../widgets/conflict_warning_card.dart';
 
 class SkincareLogScreen extends StatefulWidget {
   const SkincareLogScreen({super.key});
@@ -34,6 +35,80 @@ class _SkincareLogScreenState extends State<SkincareLogScreen>
   bool _isLoading = false;
   bool _logSaved = false;
   Map<String, dynamic>? _savedLog;
+
+
+  List<Map<String, dynamic>> _conflicts = [];
+  bool _checkingConflicts = false;
+
+  Future<void> _checkIngredientConflicts() async {
+  // Gather all products from all slots
+  final allProducts = [
+    ..._selectedProducts['morning']!,
+    ..._selectedProducts['evening']!,
+    ..._selectedProducts['night']!,
+  ];
+
+  if (allProducts.length < 2) {
+    setState(() => _conflicts = []);
+    return;
+  }
+
+  setState(() => _checkingConflicts = true);
+
+  try {
+    final token = Provider.of<AuthProvider>(context, listen: false).token!;
+
+    // Extract ingredient keywords from product names
+    final ingredientKeywords = _extractIngredientKeywords(allProducts);
+
+    if (ingredientKeywords.isEmpty) {
+      setState(() => _conflicts = []);
+      return;
+    }
+
+    final result = await ApiService.analyzeIngredients(token, ingredientKeywords);
+    setState(() {
+      _conflicts = List<Map<String, dynamic>>.from(result['conflicts'] ?? []);
+    });
+  } catch (e) {
+    debugPrint('Conflict check error: $e');
+  } finally {
+    setState(() => _checkingConflicts = false);
+  }
+}
+
+List<String> _extractIngredientKeywords(List<String> productNames) {
+  final keywords = <String>[];
+  final text = productNames.join(' ').toLowerCase();
+
+  // Check for common active ingredients in product names
+  final ingredientMap = {
+    'retinol': ['retinol', 'retin'],
+    'vitamin c': ['vitamin c', 'vit c', 'ascorbic', 'vitc'],
+    'niacinamide': ['niacinamide', 'niacin'],
+    'aha': ['aha', 'glycolic', 'lactic', 'mandelic', 'alpha hydroxy'],
+    'bha': ['bha', 'salicylic', 'beta hydroxy'],
+    'salicylic acid': ['salicylic'],
+    'glycolic acid': ['glycolic'],
+    'lactic acid': ['lactic'],
+    'benzoyl peroxide': ['benzoyl'],
+    'hyaluronic acid': ['hyaluronic', 'ha serum'],
+    'kojic acid': ['kojic'],
+    'niacinamide': ['niacinamide'],
+    'peptides': ['peptide'],
+    'copper peptides': ['copper peptide'],
+    'spf': ['spf', 'sunscreen', 'sun screen'],
+    'alpha arbutin': ['arbutin'],
+  };
+
+  for (final entry in ingredientMap.entries) {
+    if (entry.value.any((keyword) => text.contains(keyword))) {
+      keywords.add(entry.key);
+    }
+  }
+
+  return keywords;
+}
 
   // Past reports
   List<Map<String, dynamic>> _pastLogs = [];
@@ -276,6 +351,7 @@ class _SkincareLogScreenState extends State<SkincareLogScreen>
                         _searchResults = [];
                         _productSearchController.clear();
                       });
+                      _checkIngredientConflicts();
                     }
                   },
                 )).toList(),
@@ -358,6 +434,80 @@ class _SkincareLogScreenState extends State<SkincareLogScreen>
                     ),
             ),
           ),
+         // Conflict warnings
+if (_checkingConflicts) ...[
+  const SizedBox(height: 16),
+  Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.grey.shade50,
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: const Row(
+      children: [
+        SizedBox(
+          width: 18, height: 18,
+          child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFFE91E8C)),
+        ),
+        SizedBox(width: 12),
+        Text('Checking ingredient compatibility...',
+            style: TextStyle(color: Colors.grey)),
+      ],
+    ),
+  ),
+] else if (_conflicts.isNotEmpty) ...[
+  const SizedBox(height: 16),
+  // Warning header
+  Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.red.shade50,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.red.shade200),
+    ),
+    child: Row(
+      children: [
+        const Icon(Icons.warning_amber_rounded, color: Colors.red, size: 22),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            '${_conflicts.length} ingredient conflict${_conflicts.length > 1 ? 's' : ''} detected in your routine!',
+            style: const TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+  const SizedBox(height: 8),
+  // Show each conflict card
+  ..._conflicts.map((c) => ConflictWarningCard(conflict: c)).toList(),
+] else if (_conflicts.isEmpty &&
+    (_selectedProducts.values.expand((e) => e).length >= 2)) ...[
+  const SizedBox(height: 16),
+  Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.green.shade50,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.green.shade200),
+    ),
+    child: const Row(
+      children: [
+        Icon(Icons.check_circle, color: Colors.green, size: 22),
+        SizedBox(width: 10),
+        Text('All ingredients are compatible! ✅',
+            style: TextStyle(
+                color: Colors.green, fontWeight: FontWeight.bold)),
+      ],
+    ),
+  ),
+],
+
 
           const SizedBox(height: 24),
           const Text('Summary', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -532,6 +682,43 @@ class _SkincareLogScreenState extends State<SkincareLogScreen>
             _reportSlotCard('🌙', 'Night', products['night']!, const Color(0xFF3F51B5)),
             const SizedBox(height: 12),
           ],
+
+          // Ingredient conflict warnings in report
+if (_conflicts.isNotEmpty) ...[
+  const SizedBox(height: 20),
+  const Text('⚠️ Ingredient Warnings',
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+  const SizedBox(height: 4),
+  const Text(
+    'These ingredient combinations were detected in your routine today.',
+    style: TextStyle(color: Colors.grey, fontSize: 13),
+  ),
+  const SizedBox(height: 12),
+  ..._conflicts.map((c) => ConflictWarningCard(conflict: c)).toList(),
+] else if (_logSaved) ...[
+  const SizedBox(height: 20),
+  Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: Colors.green.shade50,
+      borderRadius: BorderRadius.circular(12),
+      border: Border.all(color: Colors.green.shade200),
+    ),
+    child: const Row(
+      children: [
+        Icon(Icons.check_circle, color: Colors.green),
+        SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            'No ingredient conflicts in today\'s routine! ✅',
+            style: TextStyle(
+                color: Colors.green, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    ),
+  ),
+],
 
           const SizedBox(height: 20),
           const Text('Today\'s Stats', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

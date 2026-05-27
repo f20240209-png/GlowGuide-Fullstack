@@ -7,6 +7,7 @@ import 'profile_setup_screen.dart';
 import 'routine_screen.dart';
 import 'skincare_log_screen.dart';
 import 'edit_profile_screen.dart';
+import '../widgets/consistency_heatmap_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -195,6 +196,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                        const SizedBox(height: 24),
+                    const Text('Monthly Consistency', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 12),
+                    const ConsistencyHeatmapWidget(),
                   ],
                 ],
               ),

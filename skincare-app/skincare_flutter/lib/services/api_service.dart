@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../models/ingredient_conflict_model.dart';
+import '../models/heatmap_day_model.dart';
 
 class ApiService {
   static const String baseUrl = 'http://localhost:3000/api';
@@ -92,4 +94,46 @@ class ApiService {
     );
     return jsonDecode(response.body);
   }
+
+  // Ingredient conflict analysis
+static Future<Map<String, dynamic>> analyzeIngredients(
+    String token, List<String> ingredients) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/analyze-routine'),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+    body: jsonEncode({'ingredients': ingredients}),
+  );
+  return jsonDecode(response.body);
 }
+
+/// Fetches the monthly heatmap data.
+/// [month] is 1-based (1 = January … 12 = December).
+static Future<Map<String, dynamic>> getMonthlyHeatmap(
+  String token,
+  int year,
+  int month,
+) async {
+  final response = await http.get(
+    Uri.parse('$baseUrl/logs/heatmap?year=$year&month=$month'),
+    headers: {'Authorization': 'Bearer $token'},
+  );
+
+  final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+  if (response.statusCode == 200) {
+    return {
+      'heatmapData': (data['heatmapData'] as List)
+          .map((d) => HeatmapDay.fromJson(d as Map<String, dynamic>))
+          .toList(),
+      'currentStreak': data['currentStreak'] as int,
+    };
+  }
+
+  throw Exception(data['message'] ?? 'Failed to load heatmap');
+}
+
+}
+

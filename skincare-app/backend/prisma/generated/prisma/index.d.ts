@@ -38,6 +38,11 @@ export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
  * 
  */
 export type SkincareLog = $Result.DefaultSelection<Prisma.$SkincareLogPayload>
+/**
+ * Model Ingredient_Conflict
+ * 
+ */
+export type Ingredient_Conflict = $Result.DefaultSelection<Prisma.$Ingredient_ConflictPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -206,6 +211,16 @@ export class PrismaClient<
     * ```
     */
   get skincareLog(): Prisma.SkincareLogDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.ingredient_Conflict`: Exposes CRUD operations for the **Ingredient_Conflict** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ingredient_Conflicts
+    * const ingredient_Conflicts = await prisma.ingredient_Conflict.findMany()
+    * ```
+    */
+  get ingredient_Conflict(): Prisma.Ingredient_ConflictDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -651,7 +666,8 @@ export namespace Prisma {
     Profile: 'Profile',
     Recommendation: 'Recommendation',
     Product: 'Product',
-    SkincareLog: 'SkincareLog'
+    SkincareLog: 'SkincareLog',
+    Ingredient_Conflict: 'Ingredient_Conflict'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -670,7 +686,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "profile" | "recommendation" | "product" | "skincareLog"
+      modelProps: "user" | "profile" | "recommendation" | "product" | "skincareLog" | "ingredient_Conflict"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1004,6 +1020,72 @@ export namespace Prisma {
           }
         }
       }
+      Ingredient_Conflict: {
+        payload: Prisma.$Ingredient_ConflictPayload<ExtArgs>
+        fields: Prisma.Ingredient_ConflictFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.Ingredient_ConflictFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.Ingredient_ConflictFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          findFirst: {
+            args: Prisma.Ingredient_ConflictFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.Ingredient_ConflictFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          findMany: {
+            args: Prisma.Ingredient_ConflictFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>[]
+          }
+          create: {
+            args: Prisma.Ingredient_ConflictCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          createMany: {
+            args: Prisma.Ingredient_ConflictCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.Ingredient_ConflictDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          update: {
+            args: Prisma.Ingredient_ConflictUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          deleteMany: {
+            args: Prisma.Ingredient_ConflictDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.Ingredient_ConflictUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.Ingredient_ConflictUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$Ingredient_ConflictPayload>
+          }
+          aggregate: {
+            args: Prisma.Ingredient_ConflictAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIngredient_Conflict>
+          }
+          groupBy: {
+            args: Prisma.Ingredient_ConflictGroupByArgs<ExtArgs>
+            result: $Utils.Optional<Ingredient_ConflictGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.Ingredient_ConflictCountArgs<ExtArgs>
+            result: $Utils.Optional<Ingredient_ConflictCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1105,6 +1187,7 @@ export namespace Prisma {
     recommendation?: RecommendationOmit
     product?: ProductOmit
     skincareLog?: SkincareLogOmit
+    ingredient_Conflict?: Ingredient_ConflictOmit
   }
 
   /* Types for Logging */
@@ -6345,6 +6428,933 @@ export namespace Prisma {
 
 
   /**
+   * Model Ingredient_Conflict
+   */
+
+  export type AggregateIngredient_Conflict = {
+    _count: Ingredient_ConflictCountAggregateOutputType | null
+    _avg: Ingredient_ConflictAvgAggregateOutputType | null
+    _sum: Ingredient_ConflictSumAggregateOutputType | null
+    _min: Ingredient_ConflictMinAggregateOutputType | null
+    _max: Ingredient_ConflictMaxAggregateOutputType | null
+  }
+
+  export type Ingredient_ConflictAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Ingredient_ConflictSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type Ingredient_ConflictMinAggregateOutputType = {
+    id: number | null
+    ingredientA: string | null
+    ingredientB: string | null
+    severityLevel: string | null
+    warningMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type Ingredient_ConflictMaxAggregateOutputType = {
+    id: number | null
+    ingredientA: string | null
+    ingredientB: string | null
+    severityLevel: string | null
+    warningMessage: string | null
+    createdAt: Date | null
+  }
+
+  export type Ingredient_ConflictCountAggregateOutputType = {
+    id: number
+    ingredientA: number
+    ingredientB: number
+    severityLevel: number
+    warningMessage: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type Ingredient_ConflictAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type Ingredient_ConflictSumAggregateInputType = {
+    id?: true
+  }
+
+  export type Ingredient_ConflictMinAggregateInputType = {
+    id?: true
+    ingredientA?: true
+    ingredientB?: true
+    severityLevel?: true
+    warningMessage?: true
+    createdAt?: true
+  }
+
+  export type Ingredient_ConflictMaxAggregateInputType = {
+    id?: true
+    ingredientA?: true
+    ingredientB?: true
+    severityLevel?: true
+    warningMessage?: true
+    createdAt?: true
+  }
+
+  export type Ingredient_ConflictCountAggregateInputType = {
+    id?: true
+    ingredientA?: true
+    ingredientB?: true
+    severityLevel?: true
+    warningMessage?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type Ingredient_ConflictAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ingredient_Conflict to aggregate.
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ingredient_Conflicts to fetch.
+     */
+    orderBy?: Ingredient_ConflictOrderByWithRelationInput | Ingredient_ConflictOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: Ingredient_ConflictWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ingredient_Conflicts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ingredient_Conflicts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ingredient_Conflicts
+    **/
+    _count?: true | Ingredient_ConflictCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: Ingredient_ConflictAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: Ingredient_ConflictSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: Ingredient_ConflictMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: Ingredient_ConflictMaxAggregateInputType
+  }
+
+  export type GetIngredient_ConflictAggregateType<T extends Ingredient_ConflictAggregateArgs> = {
+        [P in keyof T & keyof AggregateIngredient_Conflict]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIngredient_Conflict[P]>
+      : GetScalarType<T[P], AggregateIngredient_Conflict[P]>
+  }
+
+
+
+
+  export type Ingredient_ConflictGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: Ingredient_ConflictWhereInput
+    orderBy?: Ingredient_ConflictOrderByWithAggregationInput | Ingredient_ConflictOrderByWithAggregationInput[]
+    by: Ingredient_ConflictScalarFieldEnum[] | Ingredient_ConflictScalarFieldEnum
+    having?: Ingredient_ConflictScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: Ingredient_ConflictCountAggregateInputType | true
+    _avg?: Ingredient_ConflictAvgAggregateInputType
+    _sum?: Ingredient_ConflictSumAggregateInputType
+    _min?: Ingredient_ConflictMinAggregateInputType
+    _max?: Ingredient_ConflictMaxAggregateInputType
+  }
+
+  export type Ingredient_ConflictGroupByOutputType = {
+    id: number
+    ingredientA: string
+    ingredientB: string
+    severityLevel: string
+    warningMessage: string
+    createdAt: Date
+    _count: Ingredient_ConflictCountAggregateOutputType | null
+    _avg: Ingredient_ConflictAvgAggregateOutputType | null
+    _sum: Ingredient_ConflictSumAggregateOutputType | null
+    _min: Ingredient_ConflictMinAggregateOutputType | null
+    _max: Ingredient_ConflictMaxAggregateOutputType | null
+  }
+
+  type GetIngredient_ConflictGroupByPayload<T extends Ingredient_ConflictGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<Ingredient_ConflictGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof Ingredient_ConflictGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], Ingredient_ConflictGroupByOutputType[P]>
+            : GetScalarType<T[P], Ingredient_ConflictGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type Ingredient_ConflictSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ingredientA?: boolean
+    ingredientB?: boolean
+    severityLevel?: boolean
+    warningMessage?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["ingredient_Conflict"]>
+
+
+
+  export type Ingredient_ConflictSelectScalar = {
+    id?: boolean
+    ingredientA?: boolean
+    ingredientB?: boolean
+    severityLevel?: boolean
+    warningMessage?: boolean
+    createdAt?: boolean
+  }
+
+  export type Ingredient_ConflictOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ingredientA" | "ingredientB" | "severityLevel" | "warningMessage" | "createdAt", ExtArgs["result"]["ingredient_Conflict"]>
+
+  export type $Ingredient_ConflictPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Ingredient_Conflict"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      ingredientA: string
+      ingredientB: string
+      severityLevel: string
+      warningMessage: string
+      createdAt: Date
+    }, ExtArgs["result"]["ingredient_Conflict"]>
+    composites: {}
+  }
+
+  type Ingredient_ConflictGetPayload<S extends boolean | null | undefined | Ingredient_ConflictDefaultArgs> = $Result.GetResult<Prisma.$Ingredient_ConflictPayload, S>
+
+  type Ingredient_ConflictCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<Ingredient_ConflictFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: Ingredient_ConflictCountAggregateInputType | true
+    }
+
+  export interface Ingredient_ConflictDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Ingredient_Conflict'], meta: { name: 'Ingredient_Conflict' } }
+    /**
+     * Find zero or one Ingredient_Conflict that matches the filter.
+     * @param {Ingredient_ConflictFindUniqueArgs} args - Arguments to find a Ingredient_Conflict
+     * @example
+     * // Get one Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends Ingredient_ConflictFindUniqueArgs>(args: SelectSubset<T, Ingredient_ConflictFindUniqueArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Ingredient_Conflict that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {Ingredient_ConflictFindUniqueOrThrowArgs} args - Arguments to find a Ingredient_Conflict
+     * @example
+     * // Get one Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends Ingredient_ConflictFindUniqueOrThrowArgs>(args: SelectSubset<T, Ingredient_ConflictFindUniqueOrThrowArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Ingredient_Conflict that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictFindFirstArgs} args - Arguments to find a Ingredient_Conflict
+     * @example
+     * // Get one Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends Ingredient_ConflictFindFirstArgs>(args?: SelectSubset<T, Ingredient_ConflictFindFirstArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Ingredient_Conflict that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictFindFirstOrThrowArgs} args - Arguments to find a Ingredient_Conflict
+     * @example
+     * // Get one Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends Ingredient_ConflictFindFirstOrThrowArgs>(args?: SelectSubset<T, Ingredient_ConflictFindFirstOrThrowArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Ingredient_Conflicts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ingredient_Conflicts
+     * const ingredient_Conflicts = await prisma.ingredient_Conflict.findMany()
+     * 
+     * // Get first 10 Ingredient_Conflicts
+     * const ingredient_Conflicts = await prisma.ingredient_Conflict.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ingredient_ConflictWithIdOnly = await prisma.ingredient_Conflict.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends Ingredient_ConflictFindManyArgs>(args?: SelectSubset<T, Ingredient_ConflictFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Ingredient_Conflict.
+     * @param {Ingredient_ConflictCreateArgs} args - Arguments to create a Ingredient_Conflict.
+     * @example
+     * // Create one Ingredient_Conflict
+     * const Ingredient_Conflict = await prisma.ingredient_Conflict.create({
+     *   data: {
+     *     // ... data to create a Ingredient_Conflict
+     *   }
+     * })
+     * 
+     */
+    create<T extends Ingredient_ConflictCreateArgs>(args: SelectSubset<T, Ingredient_ConflictCreateArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Ingredient_Conflicts.
+     * @param {Ingredient_ConflictCreateManyArgs} args - Arguments to create many Ingredient_Conflicts.
+     * @example
+     * // Create many Ingredient_Conflicts
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends Ingredient_ConflictCreateManyArgs>(args?: SelectSubset<T, Ingredient_ConflictCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Ingredient_Conflict.
+     * @param {Ingredient_ConflictDeleteArgs} args - Arguments to delete one Ingredient_Conflict.
+     * @example
+     * // Delete one Ingredient_Conflict
+     * const Ingredient_Conflict = await prisma.ingredient_Conflict.delete({
+     *   where: {
+     *     // ... filter to delete one Ingredient_Conflict
+     *   }
+     * })
+     * 
+     */
+    delete<T extends Ingredient_ConflictDeleteArgs>(args: SelectSubset<T, Ingredient_ConflictDeleteArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Ingredient_Conflict.
+     * @param {Ingredient_ConflictUpdateArgs} args - Arguments to update one Ingredient_Conflict.
+     * @example
+     * // Update one Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends Ingredient_ConflictUpdateArgs>(args: SelectSubset<T, Ingredient_ConflictUpdateArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Ingredient_Conflicts.
+     * @param {Ingredient_ConflictDeleteManyArgs} args - Arguments to filter Ingredient_Conflicts to delete.
+     * @example
+     * // Delete a few Ingredient_Conflicts
+     * const { count } = await prisma.ingredient_Conflict.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends Ingredient_ConflictDeleteManyArgs>(args?: SelectSubset<T, Ingredient_ConflictDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ingredient_Conflicts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ingredient_Conflicts
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends Ingredient_ConflictUpdateManyArgs>(args: SelectSubset<T, Ingredient_ConflictUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Ingredient_Conflict.
+     * @param {Ingredient_ConflictUpsertArgs} args - Arguments to update or create a Ingredient_Conflict.
+     * @example
+     * // Update or create a Ingredient_Conflict
+     * const ingredient_Conflict = await prisma.ingredient_Conflict.upsert({
+     *   create: {
+     *     // ... data to create a Ingredient_Conflict
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Ingredient_Conflict we want to update
+     *   }
+     * })
+     */
+    upsert<T extends Ingredient_ConflictUpsertArgs>(args: SelectSubset<T, Ingredient_ConflictUpsertArgs<ExtArgs>>): Prisma__Ingredient_ConflictClient<$Result.GetResult<Prisma.$Ingredient_ConflictPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Ingredient_Conflicts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictCountArgs} args - Arguments to filter Ingredient_Conflicts to count.
+     * @example
+     * // Count the number of Ingredient_Conflicts
+     * const count = await prisma.ingredient_Conflict.count({
+     *   where: {
+     *     // ... the filter for the Ingredient_Conflicts we want to count
+     *   }
+     * })
+    **/
+    count<T extends Ingredient_ConflictCountArgs>(
+      args?: Subset<T, Ingredient_ConflictCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], Ingredient_ConflictCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Ingredient_Conflict.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends Ingredient_ConflictAggregateArgs>(args: Subset<T, Ingredient_ConflictAggregateArgs>): Prisma.PrismaPromise<GetIngredient_ConflictAggregateType<T>>
+
+    /**
+     * Group by Ingredient_Conflict.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {Ingredient_ConflictGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends Ingredient_ConflictGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: Ingredient_ConflictGroupByArgs['orderBy'] }
+        : { orderBy?: Ingredient_ConflictGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, Ingredient_ConflictGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIngredient_ConflictGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Ingredient_Conflict model
+   */
+  readonly fields: Ingredient_ConflictFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Ingredient_Conflict.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__Ingredient_ConflictClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Ingredient_Conflict model
+   */
+  interface Ingredient_ConflictFieldRefs {
+    readonly id: FieldRef<"Ingredient_Conflict", 'Int'>
+    readonly ingredientA: FieldRef<"Ingredient_Conflict", 'String'>
+    readonly ingredientB: FieldRef<"Ingredient_Conflict", 'String'>
+    readonly severityLevel: FieldRef<"Ingredient_Conflict", 'String'>
+    readonly warningMessage: FieldRef<"Ingredient_Conflict", 'String'>
+    readonly createdAt: FieldRef<"Ingredient_Conflict", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Ingredient_Conflict findUnique
+   */
+  export type Ingredient_ConflictFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter, which Ingredient_Conflict to fetch.
+     */
+    where: Ingredient_ConflictWhereUniqueInput
+  }
+
+  /**
+   * Ingredient_Conflict findUniqueOrThrow
+   */
+  export type Ingredient_ConflictFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter, which Ingredient_Conflict to fetch.
+     */
+    where: Ingredient_ConflictWhereUniqueInput
+  }
+
+  /**
+   * Ingredient_Conflict findFirst
+   */
+  export type Ingredient_ConflictFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter, which Ingredient_Conflict to fetch.
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ingredient_Conflicts to fetch.
+     */
+    orderBy?: Ingredient_ConflictOrderByWithRelationInput | Ingredient_ConflictOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ingredient_Conflicts.
+     */
+    cursor?: Ingredient_ConflictWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ingredient_Conflicts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ingredient_Conflicts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ingredient_Conflicts.
+     */
+    distinct?: Ingredient_ConflictScalarFieldEnum | Ingredient_ConflictScalarFieldEnum[]
+  }
+
+  /**
+   * Ingredient_Conflict findFirstOrThrow
+   */
+  export type Ingredient_ConflictFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter, which Ingredient_Conflict to fetch.
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ingredient_Conflicts to fetch.
+     */
+    orderBy?: Ingredient_ConflictOrderByWithRelationInput | Ingredient_ConflictOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ingredient_Conflicts.
+     */
+    cursor?: Ingredient_ConflictWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ingredient_Conflicts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ingredient_Conflicts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ingredient_Conflicts.
+     */
+    distinct?: Ingredient_ConflictScalarFieldEnum | Ingredient_ConflictScalarFieldEnum[]
+  }
+
+  /**
+   * Ingredient_Conflict findMany
+   */
+  export type Ingredient_ConflictFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter, which Ingredient_Conflicts to fetch.
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ingredient_Conflicts to fetch.
+     */
+    orderBy?: Ingredient_ConflictOrderByWithRelationInput | Ingredient_ConflictOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ingredient_Conflicts.
+     */
+    cursor?: Ingredient_ConflictWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ingredient_Conflicts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ingredient_Conflicts.
+     */
+    skip?: number
+    distinct?: Ingredient_ConflictScalarFieldEnum | Ingredient_ConflictScalarFieldEnum[]
+  }
+
+  /**
+   * Ingredient_Conflict create
+   */
+  export type Ingredient_ConflictCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * The data needed to create a Ingredient_Conflict.
+     */
+    data: XOR<Ingredient_ConflictCreateInput, Ingredient_ConflictUncheckedCreateInput>
+  }
+
+  /**
+   * Ingredient_Conflict createMany
+   */
+  export type Ingredient_ConflictCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Ingredient_Conflicts.
+     */
+    data: Ingredient_ConflictCreateManyInput | Ingredient_ConflictCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Ingredient_Conflict update
+   */
+  export type Ingredient_ConflictUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * The data needed to update a Ingredient_Conflict.
+     */
+    data: XOR<Ingredient_ConflictUpdateInput, Ingredient_ConflictUncheckedUpdateInput>
+    /**
+     * Choose, which Ingredient_Conflict to update.
+     */
+    where: Ingredient_ConflictWhereUniqueInput
+  }
+
+  /**
+   * Ingredient_Conflict updateMany
+   */
+  export type Ingredient_ConflictUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Ingredient_Conflicts.
+     */
+    data: XOR<Ingredient_ConflictUpdateManyMutationInput, Ingredient_ConflictUncheckedUpdateManyInput>
+    /**
+     * Filter which Ingredient_Conflicts to update
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * Limit how many Ingredient_Conflicts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Ingredient_Conflict upsert
+   */
+  export type Ingredient_ConflictUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * The filter to search for the Ingredient_Conflict to update in case it exists.
+     */
+    where: Ingredient_ConflictWhereUniqueInput
+    /**
+     * In case the Ingredient_Conflict found by the `where` argument doesn't exist, create a new Ingredient_Conflict with this data.
+     */
+    create: XOR<Ingredient_ConflictCreateInput, Ingredient_ConflictUncheckedCreateInput>
+    /**
+     * In case the Ingredient_Conflict was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<Ingredient_ConflictUpdateInput, Ingredient_ConflictUncheckedUpdateInput>
+  }
+
+  /**
+   * Ingredient_Conflict delete
+   */
+  export type Ingredient_ConflictDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+    /**
+     * Filter which Ingredient_Conflict to delete.
+     */
+    where: Ingredient_ConflictWhereUniqueInput
+  }
+
+  /**
+   * Ingredient_Conflict deleteMany
+   */
+  export type Ingredient_ConflictDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ingredient_Conflicts to delete
+     */
+    where?: Ingredient_ConflictWhereInput
+    /**
+     * Limit how many Ingredient_Conflicts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Ingredient_Conflict without action
+   */
+  export type Ingredient_ConflictDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Ingredient_Conflict
+     */
+    select?: Ingredient_ConflictSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Ingredient_Conflict
+     */
+    omit?: Ingredient_ConflictOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -6436,6 +7446,18 @@ export namespace Prisma {
   export type SkincareLogScalarFieldEnum = (typeof SkincareLogScalarFieldEnum)[keyof typeof SkincareLogScalarFieldEnum]
 
 
+  export const Ingredient_ConflictScalarFieldEnum: {
+    id: 'id',
+    ingredientA: 'ingredientA',
+    ingredientB: 'ingredientB',
+    severityLevel: 'severityLevel',
+    warningMessage: 'warningMessage',
+    createdAt: 'createdAt'
+  };
+
+  export type Ingredient_ConflictScalarFieldEnum = (typeof Ingredient_ConflictScalarFieldEnum)[keyof typeof Ingredient_ConflictScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -6507,6 +7529,16 @@ export namespace Prisma {
   };
 
   export type SkincareLogOrderByRelevanceFieldEnum = (typeof SkincareLogOrderByRelevanceFieldEnum)[keyof typeof SkincareLogOrderByRelevanceFieldEnum]
+
+
+  export const Ingredient_ConflictOrderByRelevanceFieldEnum: {
+    ingredientA: 'ingredientA',
+    ingredientB: 'ingredientB',
+    severityLevel: 'severityLevel',
+    warningMessage: 'warningMessage'
+  };
+
+  export type Ingredient_ConflictOrderByRelevanceFieldEnum = (typeof Ingredient_ConflictOrderByRelevanceFieldEnum)[keyof typeof Ingredient_ConflictOrderByRelevanceFieldEnum]
 
 
   /**
@@ -6953,6 +7985,66 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"SkincareLog"> | Date | string
   }
 
+  export type Ingredient_ConflictWhereInput = {
+    AND?: Ingredient_ConflictWhereInput | Ingredient_ConflictWhereInput[]
+    OR?: Ingredient_ConflictWhereInput[]
+    NOT?: Ingredient_ConflictWhereInput | Ingredient_ConflictWhereInput[]
+    id?: IntFilter<"Ingredient_Conflict"> | number
+    ingredientA?: StringFilter<"Ingredient_Conflict"> | string
+    ingredientB?: StringFilter<"Ingredient_Conflict"> | string
+    severityLevel?: StringFilter<"Ingredient_Conflict"> | string
+    warningMessage?: StringFilter<"Ingredient_Conflict"> | string
+    createdAt?: DateTimeFilter<"Ingredient_Conflict"> | Date | string
+  }
+
+  export type Ingredient_ConflictOrderByWithRelationInput = {
+    id?: SortOrder
+    ingredientA?: SortOrder
+    ingredientB?: SortOrder
+    severityLevel?: SortOrder
+    warningMessage?: SortOrder
+    createdAt?: SortOrder
+    _relevance?: Ingredient_ConflictOrderByRelevanceInput
+  }
+
+  export type Ingredient_ConflictWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: Ingredient_ConflictWhereInput | Ingredient_ConflictWhereInput[]
+    OR?: Ingredient_ConflictWhereInput[]
+    NOT?: Ingredient_ConflictWhereInput | Ingredient_ConflictWhereInput[]
+    ingredientA?: StringFilter<"Ingredient_Conflict"> | string
+    ingredientB?: StringFilter<"Ingredient_Conflict"> | string
+    severityLevel?: StringFilter<"Ingredient_Conflict"> | string
+    warningMessage?: StringFilter<"Ingredient_Conflict"> | string
+    createdAt?: DateTimeFilter<"Ingredient_Conflict"> | Date | string
+  }, "id">
+
+  export type Ingredient_ConflictOrderByWithAggregationInput = {
+    id?: SortOrder
+    ingredientA?: SortOrder
+    ingredientB?: SortOrder
+    severityLevel?: SortOrder
+    warningMessage?: SortOrder
+    createdAt?: SortOrder
+    _count?: Ingredient_ConflictCountOrderByAggregateInput
+    _avg?: Ingredient_ConflictAvgOrderByAggregateInput
+    _max?: Ingredient_ConflictMaxOrderByAggregateInput
+    _min?: Ingredient_ConflictMinOrderByAggregateInput
+    _sum?: Ingredient_ConflictSumOrderByAggregateInput
+  }
+
+  export type Ingredient_ConflictScalarWhereWithAggregatesInput = {
+    AND?: Ingredient_ConflictScalarWhereWithAggregatesInput | Ingredient_ConflictScalarWhereWithAggregatesInput[]
+    OR?: Ingredient_ConflictScalarWhereWithAggregatesInput[]
+    NOT?: Ingredient_ConflictScalarWhereWithAggregatesInput | Ingredient_ConflictScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Ingredient_Conflict"> | number
+    ingredientA?: StringWithAggregatesFilter<"Ingredient_Conflict"> | string
+    ingredientB?: StringWithAggregatesFilter<"Ingredient_Conflict"> | string
+    severityLevel?: StringWithAggregatesFilter<"Ingredient_Conflict"> | string
+    warningMessage?: StringWithAggregatesFilter<"Ingredient_Conflict"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Ingredient_Conflict"> | Date | string
+  }
+
   export type UserCreateInput = {
     name: string
     email: string
@@ -7385,6 +8477,66 @@ export namespace Prisma {
     productsUsed?: StringFieldUpdateOperationsInput | string
     notes?: NullableStringFieldUpdateOperationsInput | string | null
     photo?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type Ingredient_ConflictCreateInput = {
+    ingredientA: string
+    ingredientB: string
+    severityLevel: string
+    warningMessage: string
+    createdAt?: Date | string
+  }
+
+  export type Ingredient_ConflictUncheckedCreateInput = {
+    id?: number
+    ingredientA: string
+    ingredientB: string
+    severityLevel: string
+    warningMessage: string
+    createdAt?: Date | string
+  }
+
+  export type Ingredient_ConflictUpdateInput = {
+    ingredientA?: StringFieldUpdateOperationsInput | string
+    ingredientB?: StringFieldUpdateOperationsInput | string
+    severityLevel?: StringFieldUpdateOperationsInput | string
+    warningMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type Ingredient_ConflictUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ingredientA?: StringFieldUpdateOperationsInput | string
+    ingredientB?: StringFieldUpdateOperationsInput | string
+    severityLevel?: StringFieldUpdateOperationsInput | string
+    warningMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type Ingredient_ConflictCreateManyInput = {
+    id?: number
+    ingredientA: string
+    ingredientB: string
+    severityLevel: string
+    warningMessage: string
+    createdAt?: Date | string
+  }
+
+  export type Ingredient_ConflictUpdateManyMutationInput = {
+    ingredientA?: StringFieldUpdateOperationsInput | string
+    ingredientB?: StringFieldUpdateOperationsInput | string
+    severityLevel?: StringFieldUpdateOperationsInput | string
+    warningMessage?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type Ingredient_ConflictUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ingredientA?: StringFieldUpdateOperationsInput | string
+    ingredientB?: StringFieldUpdateOperationsInput | string
+    severityLevel?: StringFieldUpdateOperationsInput | string
+    warningMessage?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -7843,6 +8995,47 @@ export namespace Prisma {
   export type SkincareLogSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+  }
+
+  export type Ingredient_ConflictOrderByRelevanceInput = {
+    fields: Ingredient_ConflictOrderByRelevanceFieldEnum | Ingredient_ConflictOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type Ingredient_ConflictCountOrderByAggregateInput = {
+    id?: SortOrder
+    ingredientA?: SortOrder
+    ingredientB?: SortOrder
+    severityLevel?: SortOrder
+    warningMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type Ingredient_ConflictAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type Ingredient_ConflictMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ingredientA?: SortOrder
+    ingredientB?: SortOrder
+    severityLevel?: SortOrder
+    warningMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type Ingredient_ConflictMinOrderByAggregateInput = {
+    id?: SortOrder
+    ingredientA?: SortOrder
+    ingredientB?: SortOrder
+    severityLevel?: SortOrder
+    warningMessage?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type Ingredient_ConflictSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type ProfileCreateNestedOneWithoutUserInput = {
