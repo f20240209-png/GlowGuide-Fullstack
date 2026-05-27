@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String        @unique
+  password     String?
+  googleId     String?       @unique
+  createdAt    DateTime      @default(now())
+  profile      Profile?
+  skincareLogs SkincareLog[]
+}
+
+model Profile {
+  id              Int             @id @default(autoincrement())
+  userId          Int             @unique
+  user            User            @relation(fields: [userId], references: [id])
+  age             Int
+  gender          String
+  skinType        String
+  skinGoals       String
+  budget          Float
+  currentProducts String?
+  currentRoutine  String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  recommendation  Recommendation?
+}
+
+model Recommendation {
+  id        Int      @id @default(autoincrement())
+  profileId Int      @unique
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  routine   String   @db.LongText
+  products  String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  name          String   @db.Text
+  brand         String
+  category      String
+  price         Float    @default(0)
+  originalPrice Float    @default(0)
+  discount      String?
+  skinTypes     String
+  skinGoals     String
+  description   String   @db.Text
+  howToUse      String   @db.Text
+  availableAt   String   @default("Nykaa, Amazon, Flipkart")
+  rating        Float    @default(0)
+  reviewCount   Int      @default(0)
+  ingredients   String?  @db.LongText
+  imageUrl      String?  @db.Text
+  productUrl    String?  @db.Text
+  createdAt     DateTime @default(now())
+}
+
+model SkincareLog {
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  timeOfDay    String
+  productsUsed String   @db.Text
+  notes        String?  @db.Text
+  photo        String?  @db.LongText
+  createdAt    DateTime @default(now())
+}
