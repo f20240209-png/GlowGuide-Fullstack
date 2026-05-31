@@ -10,10 +10,12 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement())
-  name         String
-  email        String        @unique
+  name         String?
+  email        String?       @unique
   password     String?
   googleId     String?       @unique
+  phoneNumber  String?       @unique
+  isNewUser    Boolean       @default(true)
   createdAt    DateTime      @default(now())
   profile      Profile?
   skincareLogs SkincareLog[]

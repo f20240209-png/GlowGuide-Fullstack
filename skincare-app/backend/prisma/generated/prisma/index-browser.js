@@ -127,6 +127,8 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   password: 'password',
   googleId: 'googleId',
+  phoneNumber: 'phoneNumber',
+  isNewUser: 'isNewUser',
   createdAt: 'createdAt'
 };
 
@@ -207,7 +209,8 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   name: 'name',
   email: 'email',
   password: 'password',
-  googleId: 'googleId'
+  googleId: 'googleId',
+  phoneNumber: 'phoneNumber'
 };
 
 exports.Prisma.ProfileOrderByRelevanceFieldEnum = {
