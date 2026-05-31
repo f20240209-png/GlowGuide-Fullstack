@@ -12,7 +12,7 @@ const ingredientRoutes = require('./routes/ingredientRoutes');
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:57132', 'http://localhost:3000', 'http://localhost'],
+  origin: ['http://localhost:57132', 'http://localhost:3000', 'http://localhost','https://inquisitive-clafoutis-600746.netlify.app'],
   credentials: true
 }));
 
