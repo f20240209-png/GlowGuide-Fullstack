@@ -151,6 +151,9 @@ exports.Prisma.RecommendationScalarFieldEnum = {
   profileId: 'profileId',
   routine: 'routine',
   products: 'products',
+  productAnalysis: 'productAnalysis',
+  isEffective: 'isEffective',
+  hasCurrentProducts: 'hasCurrentProducts',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -223,7 +226,8 @@ exports.Prisma.ProfileOrderByRelevanceFieldEnum = {
 
 exports.Prisma.RecommendationOrderByRelevanceFieldEnum = {
   routine: 'routine',
-  products: 'products'
+  products: 'products',
+  productAnalysis: 'productAnalysis'
 };
 
 exports.Prisma.ProductOrderByRelevanceFieldEnum = {

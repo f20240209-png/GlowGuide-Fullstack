@@ -3434,6 +3434,9 @@ export namespace Prisma {
     profileId: number | null
     routine: string | null
     products: string | null
+    productAnalysis: string | null
+    isEffective: boolean | null
+    hasCurrentProducts: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3443,6 +3446,9 @@ export namespace Prisma {
     profileId: number | null
     routine: string | null
     products: string | null
+    productAnalysis: string | null
+    isEffective: boolean | null
+    hasCurrentProducts: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3452,6 +3458,9 @@ export namespace Prisma {
     profileId: number
     routine: number
     products: number
+    productAnalysis: number
+    isEffective: number
+    hasCurrentProducts: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3473,6 +3482,9 @@ export namespace Prisma {
     profileId?: true
     routine?: true
     products?: true
+    productAnalysis?: true
+    isEffective?: true
+    hasCurrentProducts?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3482,6 +3494,9 @@ export namespace Prisma {
     profileId?: true
     routine?: true
     products?: true
+    productAnalysis?: true
+    isEffective?: true
+    hasCurrentProducts?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3491,6 +3506,9 @@ export namespace Prisma {
     profileId?: true
     routine?: true
     products?: true
+    productAnalysis?: true
+    isEffective?: true
+    hasCurrentProducts?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3587,6 +3605,9 @@ export namespace Prisma {
     profileId: number
     routine: string
     products: string
+    productAnalysis: string | null
+    isEffective: boolean
+    hasCurrentProducts: boolean
     createdAt: Date
     updatedAt: Date
     _count: RecommendationCountAggregateOutputType | null
@@ -3615,6 +3636,9 @@ export namespace Prisma {
     profileId?: boolean
     routine?: boolean
     products?: boolean
+    productAnalysis?: boolean
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
@@ -3627,11 +3651,14 @@ export namespace Prisma {
     profileId?: boolean
     routine?: boolean
     products?: boolean
+    productAnalysis?: boolean
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type RecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "routine" | "products" | "createdAt" | "updatedAt", ExtArgs["result"]["recommendation"]>
+  export type RecommendationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "profileId" | "routine" | "products" | "productAnalysis" | "isEffective" | "hasCurrentProducts" | "createdAt" | "updatedAt", ExtArgs["result"]["recommendation"]>
   export type RecommendationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     profile?: boolean | ProfileDefaultArgs<ExtArgs>
   }
@@ -3646,6 +3673,9 @@ export namespace Prisma {
       profileId: number
       routine: string
       products: string
+      productAnalysis: string | null
+      isEffective: boolean
+      hasCurrentProducts: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["recommendation"]>
@@ -4022,6 +4052,9 @@ export namespace Prisma {
     readonly profileId: FieldRef<"Recommendation", 'Int'>
     readonly routine: FieldRef<"Recommendation", 'String'>
     readonly products: FieldRef<"Recommendation", 'String'>
+    readonly productAnalysis: FieldRef<"Recommendation", 'String'>
+    readonly isEffective: FieldRef<"Recommendation", 'Boolean'>
+    readonly hasCurrentProducts: FieldRef<"Recommendation", 'Boolean'>
     readonly createdAt: FieldRef<"Recommendation", 'DateTime'>
     readonly updatedAt: FieldRef<"Recommendation", 'DateTime'>
   }
@@ -7426,6 +7459,9 @@ export namespace Prisma {
     profileId: 'profileId',
     routine: 'routine',
     products: 'products',
+    productAnalysis: 'productAnalysis',
+    isEffective: 'isEffective',
+    hasCurrentProducts: 'hasCurrentProducts',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7522,7 +7558,8 @@ export namespace Prisma {
 
   export const RecommendationOrderByRelevanceFieldEnum: {
     routine: 'routine',
-    products: 'products'
+    products: 'products',
+    productAnalysis: 'productAnalysis'
   };
 
   export type RecommendationOrderByRelevanceFieldEnum = (typeof RecommendationOrderByRelevanceFieldEnum)[keyof typeof RecommendationOrderByRelevanceFieldEnum]
@@ -7784,6 +7821,9 @@ export namespace Prisma {
     profileId?: IntFilter<"Recommendation"> | number
     routine?: StringFilter<"Recommendation"> | string
     products?: StringFilter<"Recommendation"> | string
+    productAnalysis?: StringNullableFilter<"Recommendation"> | string | null
+    isEffective?: BoolFilter<"Recommendation"> | boolean
+    hasCurrentProducts?: BoolFilter<"Recommendation"> | boolean
     createdAt?: DateTimeFilter<"Recommendation"> | Date | string
     updatedAt?: DateTimeFilter<"Recommendation"> | Date | string
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
@@ -7794,6 +7834,9 @@ export namespace Prisma {
     profileId?: SortOrder
     routine?: SortOrder
     products?: SortOrder
+    productAnalysis?: SortOrderInput | SortOrder
+    isEffective?: SortOrder
+    hasCurrentProducts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     profile?: ProfileOrderByWithRelationInput
@@ -7808,6 +7851,9 @@ export namespace Prisma {
     NOT?: RecommendationWhereInput | RecommendationWhereInput[]
     routine?: StringFilter<"Recommendation"> | string
     products?: StringFilter<"Recommendation"> | string
+    productAnalysis?: StringNullableFilter<"Recommendation"> | string | null
+    isEffective?: BoolFilter<"Recommendation"> | boolean
+    hasCurrentProducts?: BoolFilter<"Recommendation"> | boolean
     createdAt?: DateTimeFilter<"Recommendation"> | Date | string
     updatedAt?: DateTimeFilter<"Recommendation"> | Date | string
     profile?: XOR<ProfileScalarRelationFilter, ProfileWhereInput>
@@ -7818,6 +7864,9 @@ export namespace Prisma {
     profileId?: SortOrder
     routine?: SortOrder
     products?: SortOrder
+    productAnalysis?: SortOrderInput | SortOrder
+    isEffective?: SortOrder
+    hasCurrentProducts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: RecommendationCountOrderByAggregateInput
@@ -7835,6 +7884,9 @@ export namespace Prisma {
     profileId?: IntWithAggregatesFilter<"Recommendation"> | number
     routine?: StringWithAggregatesFilter<"Recommendation"> | string
     products?: StringWithAggregatesFilter<"Recommendation"> | string
+    productAnalysis?: StringNullableWithAggregatesFilter<"Recommendation"> | string | null
+    isEffective?: BoolWithAggregatesFilter<"Recommendation"> | boolean
+    hasCurrentProducts?: BoolWithAggregatesFilter<"Recommendation"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Recommendation"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Recommendation"> | Date | string
   }
@@ -8270,6 +8322,9 @@ export namespace Prisma {
   export type RecommendationCreateInput = {
     routine: string
     products: string
+    productAnalysis?: string | null
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     profile: ProfileCreateNestedOneWithoutRecommendationInput
@@ -8280,6 +8335,9 @@ export namespace Prisma {
     profileId: number
     routine: string
     products: string
+    productAnalysis?: string | null
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8287,6 +8345,9 @@ export namespace Prisma {
   export type RecommendationUpdateInput = {
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     profile?: ProfileUpdateOneRequiredWithoutRecommendationNestedInput
@@ -8297,6 +8358,9 @@ export namespace Prisma {
     profileId?: IntFieldUpdateOperationsInput | number
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8306,6 +8370,9 @@ export namespace Prisma {
     profileId: number
     routine: string
     products: string
+    productAnalysis?: string | null
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8313,6 +8380,9 @@ export namespace Prisma {
   export type RecommendationUpdateManyMutationInput = {
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8322,6 +8392,9 @@ export namespace Prisma {
     profileId?: IntFieldUpdateOperationsInput | number
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8909,6 +8982,9 @@ export namespace Prisma {
     profileId?: SortOrder
     routine?: SortOrder
     products?: SortOrder
+    productAnalysis?: SortOrder
+    isEffective?: SortOrder
+    hasCurrentProducts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8923,6 +8999,9 @@ export namespace Prisma {
     profileId?: SortOrder
     routine?: SortOrder
     products?: SortOrder
+    productAnalysis?: SortOrder
+    isEffective?: SortOrder
+    hasCurrentProducts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8932,6 +9011,9 @@ export namespace Prisma {
     profileId?: SortOrder
     routine?: SortOrder
     products?: SortOrder
+    productAnalysis?: SortOrder
+    isEffective?: SortOrder
+    hasCurrentProducts?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9619,6 +9701,9 @@ export namespace Prisma {
   export type RecommendationCreateWithoutProfileInput = {
     routine: string
     products: string
+    productAnalysis?: string | null
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9627,6 +9712,9 @@ export namespace Prisma {
     id?: number
     routine: string
     products: string
+    productAnalysis?: string | null
+    isEffective?: boolean
+    hasCurrentProducts?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9684,6 +9772,9 @@ export namespace Prisma {
   export type RecommendationUpdateWithoutProfileInput = {
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9692,6 +9783,9 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     routine?: StringFieldUpdateOperationsInput | string
     products?: StringFieldUpdateOperationsInput | string
+    productAnalysis?: NullableStringFieldUpdateOperationsInput | string | null
+    isEffective?: BoolFieldUpdateOperationsInput | boolean
+    hasCurrentProducts?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

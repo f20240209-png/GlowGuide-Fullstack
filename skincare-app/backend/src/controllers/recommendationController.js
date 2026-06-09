@@ -7,17 +7,17 @@ const getRecommendation = async (req, res) => {
   try {
     const userId = req.userId;
 
-    // Get user profile
     const profile = await prisma.profile.findUnique({
       where: { userId },
       include: { user: true }
     });
 
     if (!profile) {
-      return res.status(404).json({ message: 'Profile not found. Please create your profile first.' });
+      return res.status(404).json({
+        message: 'Profile not found. Please create your profile first.'
+      });
     }
 
-    // Check if recommendation already exists
     const existingRec = await prisma.recommendation.findUnique({
       where: { profileId: profile.id }
     });
@@ -28,21 +28,27 @@ const getRecommendation = async (req, res) => {
         recommendation: {
           ...existingRec,
           routine: JSON.parse(existingRec.routine),
-          products: JSON.parse(existingRec.products)
+          products: JSON.parse(existingRec.products),
+          productAnalysis: existingRec.productAnalysis
+            ? JSON.parse(existingRec.productAnalysis)
+            : null,
+          isEffective: existingRec.isEffective,
+          hasCurrentProducts: existingRec.hasCurrentProducts,
         }
       });
     }
 
-    // Generate new recommendation using AI
     console.log('Generating AI recommendation for user:', userId);
     const aiRecommendation = await generateSkincareRecommendation(profile);
 
-    // Save to database
     const recommendation = await prisma.recommendation.create({
       data: {
         profileId: profile.id,
         routine: JSON.stringify(aiRecommendation.routine),
-        products: JSON.stringify(aiRecommendation.products)
+        products: JSON.stringify(aiRecommendation.products),
+        productAnalysis: JSON.stringify(aiRecommendation.productAnalysis),
+        isEffective: aiRecommendation.isEffective,
+        hasCurrentProducts: aiRecommendation.hasCurrentProducts,
       }
     });
 
@@ -54,7 +60,10 @@ const getRecommendation = async (req, res) => {
         products: aiRecommendation.products,
         tips: aiRecommendation.tips,
         dietAdvice: aiRecommendation.dietAdvice,
-        warnings: aiRecommendation.warnings
+        warnings: aiRecommendation.warnings,
+        productAnalysis: aiRecommendation.productAnalysis,
+        isEffective: aiRecommendation.isEffective,
+        hasCurrentProducts: aiRecommendation.hasCurrentProducts,
       }
     });
 
@@ -77,20 +86,24 @@ const refreshRecommendation = async (req, res) => {
       return res.status(404).json({ message: 'Profile not found.' });
     }
 
-    // Generate fresh recommendation
     const aiRecommendation = await generateSkincareRecommendation(profile);
 
-    // Update or create
     const recommendation = await prisma.recommendation.upsert({
       where: { profileId: profile.id },
       update: {
         routine: JSON.stringify(aiRecommendation.routine),
-        products: JSON.stringify(aiRecommendation.products)
+        products: JSON.stringify(aiRecommendation.products),
+        productAnalysis: JSON.stringify(aiRecommendation.productAnalysis),
+        isEffective: aiRecommendation.isEffective,
+        hasCurrentProducts: aiRecommendation.hasCurrentProducts,
       },
       create: {
         profileId: profile.id,
         routine: JSON.stringify(aiRecommendation.routine),
-        products: JSON.stringify(aiRecommendation.products)
+        products: JSON.stringify(aiRecommendation.products),
+        productAnalysis: JSON.stringify(aiRecommendation.productAnalysis),
+        isEffective: aiRecommendation.isEffective,
+        hasCurrentProducts: aiRecommendation.hasCurrentProducts,
       }
     });
 
@@ -102,7 +115,10 @@ const refreshRecommendation = async (req, res) => {
         products: aiRecommendation.products,
         tips: aiRecommendation.tips,
         dietAdvice: aiRecommendation.dietAdvice,
-        warnings: aiRecommendation.warnings
+        warnings: aiRecommendation.warnings,
+        productAnalysis: aiRecommendation.productAnalysis,
+        isEffective: aiRecommendation.isEffective,
+        hasCurrentProducts: aiRecommendation.hasCurrentProducts,
       }
     });
 
