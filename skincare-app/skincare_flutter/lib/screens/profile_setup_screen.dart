@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_service.dart';
 import 'home_screen.dart';
+import 'generating_routine_screen.dart';
 
 class ProfileSetupScreen extends StatefulWidget {
   const ProfileSetupScreen({super.key});
@@ -45,9 +46,10 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         'currentRoutine': _routineController.text.isEmpty ? null : _routineController.text,
       });
       if (!mounted) return;
-      if (data['profile'] != null) {
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-      } else {
+       if (data['profile'] != null) {
+  Navigator.pushReplacement(context,
+      MaterialPageRoute(builder: (_) => const GeneratingRoutineScreen()));
+}else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(data['message'] ?? 'Error'), backgroundColor: Colors.red),
         );

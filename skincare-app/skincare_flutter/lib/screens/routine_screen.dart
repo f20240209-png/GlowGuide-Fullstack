@@ -127,13 +127,19 @@ class _RoutineScreenState extends State<RoutineScreen>
           ),
 
           // Products Tab
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: products.map((p) => _productCard(p)).toList(),
-            ),
-          ),
-
+       // Products Tab
+SingleChildScrollView(
+  padding: const EdgeInsets.all(16),
+  child: Column(
+    children: [
+      // Product analysis card
+      if (widget.recommendation['productAnalysis'] != null)
+        _buildProductAnalysisCard(widget.recommendation['productAnalysis']),
+      const SizedBox(height: 8),
+      ...products.map((p) => _productCard(p)).toList(),
+    ],
+  ),
+),
           // Tips Tab
           SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -339,6 +345,126 @@ class _RoutineScreenState extends State<RoutineScreen>
               const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     );
   }
+  Widget _buildProductAnalysisCard(Map<String, dynamic> analysis) {
+  final isEffective = analysis['verdict'] == 'EFFECTIVE';
+  final productList = analysis['analysis'] as List? ?? [];
+
+  return Container(
+    margin: const EdgeInsets.only(bottom: 16),
+    decoration: BoxDecoration(
+      color: isEffective ? Colors.green.shade50 : Colors.orange.shade50,
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(
+        color: isEffective ? Colors.green.shade200 : Colors.orange.shade200,
+      ),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: isEffective ? Colors.green.shade600 : Colors.orange.shade600,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                isEffective ? Icons.check_circle : Icons.info_outline,
+                color: Colors.white,
+                size: 22,
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      isEffective
+                          ? 'Your Products Are Working! ✅'
+                          : 'Your Products Need an Upgrade',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      analysis['summary'] ?? '',
+                      style: const TextStyle(
+                          color: Colors.white70, fontSize: 12),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Product analysis list
+        if (productList.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Product Analysis:',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14)),
+                const SizedBox(height: 8),
+                ...productList.map((item) {
+                  final suitable = item['suitable'] == true;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          suitable
+                              ? Icons.check_circle
+                              : Icons.cancel,
+                          color: suitable
+                              ? Colors.green
+                              : Colors.red,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['product'] ?? '',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13),
+                              ),
+                              Text(
+                                item['reason'] ?? '',
+                                style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: 12),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ],
+            ),
+          ),
+      ],
+    ),
+  );
+}
 
   Widget _routineCard(Map<String, dynamic> step) {
     return Container(
@@ -389,8 +515,7 @@ class _RoutineScreenState extends State<RoutineScreen>
       ),
     );
   }
-
-  Widget _productCard(Map<String, dynamic> product) {
+Widget _productCard(Map<String, dynamic> product) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
@@ -402,6 +527,52 @@ class _RoutineScreenState extends State<RoutineScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ── ADDED BANNERS AT THE VERY TOP OF COLUMN ────────────────
+          if (product['recommended_to_buy'] == true) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: const BoxDecoration(
+                color: Color(0xFFE91E8C),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 14),
+                  SizedBox(width: 6),
+                  Text('Recommended to Buy',
+                      style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12), // Keeps space below the banner
+          ] else if (product['isCurrentProduct'] == true) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: Colors.green.shade600,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.check_circle_outline, color: Colors.white, size: 14),
+                  SizedBox(width: 6),
+                  Text('You Already Have This ✓',
+                      style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12), // Keeps space below the banner
+          ],
+
+          // ── ORIGINAL REST OF THE CARD ──────────────────────────────
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -539,7 +710,7 @@ class _RoutineScreenState extends State<RoutineScreen>
       ),
     );
   }
-
+ 
   Widget _warningCard(String warning) {
     return Container(
       padding: const EdgeInsets.all(12),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../services/api_service.dart';
+import 'generating_routine_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final Map<String, dynamic> profile;
@@ -48,11 +49,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       });
       if (!mounted) return;
       if (data['profile'] != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile updated!'), backgroundColor: Colors.green),
-        );
-        Navigator.pop(context);
-      }
+  Navigator.pushReplacement(context,
+      MaterialPageRoute(builder: (_) => const GeneratingRoutineScreen()));
+}
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),

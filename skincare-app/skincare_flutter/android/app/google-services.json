@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "979104093342",
+    "project_id": "gen-lang-client-0883365972",
+    "storage_bucket": "gen-lang-client-0883365972.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979104093342:android:382746f1ebe97fb836d78f",
+        "android_client_info": {
+          "package_name": "com.example.skincare_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979104093342-v3lu0hn77176va0ihghv7mt4cuiln0sj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.skincare_flutter",
+            "certificate_hash": "dc5ef213baf0b35f48dbe61a14f7b636543819dc"
+          }
+        },
+        {
+          "client_id": "979104093342-r3u6n1a785vpf211tmfdej5j454bevnd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2xSyuC56p4BKyuO0O217lkDqjRmdeZg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979104093342-r3u6n1a785vpf211tmfdej5j454bevnd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "979104093342-ie4iatas98tjdlftbb06iu2is00u4iok.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.skincareFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

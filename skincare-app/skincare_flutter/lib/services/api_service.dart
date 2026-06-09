@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/ingredient_conflict_model.dart';
 import '../models/heatmap_day_model.dart';
+import '../models/community_post_model.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:3000/api';
+  static const String baseUrl = 'https://glowguide-fullstack.onrender.com/api';
 
   // Auth
   static Future<Map<String, dynamic>> register(String name, String email, String password) async {
@@ -134,6 +135,134 @@ static Future<Map<String, dynamic>> getMonthlyHeatmap(
 
   throw Exception(data['message'] ?? 'Failed to load heatmap');
 }
+static Future<Map<String, dynamic>> googleLogin(String idToken) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/auth/google'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'idToken': idToken}),
+  );
+  return jsonDecode(response.body);
+}
+
+static Future<Map<String, dynamic>> firebaseLogin(
+    String idToken, String email, String name) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/auth/firebase-login'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'idToken': idToken,
+      'email': email,
+      'name': name,
+    }),
+  );
+  return jsonDecode(response.body);
+}
+
+static Future<Map<String, dynamic>> phoneLogin(
+    String firebaseIdToken, {String? name}) async {
+  final response = await http.post(
+    Uri.parse('$baseUrl/auth/phone-login'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({
+      'idToken': firebaseIdToken,
+      if (name != null) 'name': name,
+    }),
+  );
+  return jsonDecode(response.body);
+}
+
+
+  // ─── Community ─────────────────────────────────────────────────────────────
+
+  static Future<Map<String, dynamic>> getCommunityPosts(
+    String token, {
+    int page = 1,
+    String? category,
+  }) async {
+    final uri = Uri.parse(
+      '$baseUrl/community?page=$page${category != null ? '&category=$category' : ''}',
+    );
+    final response = await http.get(
+      uri,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> getMyPosts(String token) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/community/my-posts'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> getPostById(
+    String token,
+    int postId,
+  ) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/community/$postId'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> createPost(
+    String token, {
+    required String question,
+    String? details,
+    required String category,
+    String? skinType,
+    bool isAnonymous = true,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/community'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'question':    question,
+        'details':     details,
+        'category':    category,
+        'skinType':    skinType,
+        'isAnonymous': isAnonymous,
+      }),
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  static Future<Map<String, dynamic>> answerPost(
+    String token,
+    int postId, {
+    required String answer,
+    bool isAnonymous = true,
+  }) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/community/$postId/answer'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'answer': answer, 'isAnonymous': isAnonymous}),
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  static Future<void> likePost(String token, int postId) async {
+    await http.post(
+      Uri.parse('$baseUrl/community/$postId/like'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+  }
+
+  static Future<void> markAnswerHelpful(String token, int answerId) async {
+    await http.post(
+      Uri.parse('$baseUrl/community/answers/$answerId/helpful'),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+  }
 
 }
 

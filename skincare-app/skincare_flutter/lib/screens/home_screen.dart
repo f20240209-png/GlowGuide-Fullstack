@@ -8,6 +8,7 @@ import 'routine_screen.dart';
 import 'skincare_log_screen.dart';
 import 'edit_profile_screen.dart';
 import '../widgets/consistency_heatmap_widget.dart';
+import 'community_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -52,20 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: const Color(0xFFFFF0F5),
       appBar: AppBar(
         backgroundColor: const Color(0xFFE91E8C),
-        title: const Text('GlowGuide', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text('Corr',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout, color: Colors.white),
             onPressed: () async {
               await auth.logout();
               if (!mounted) return;
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()));
             },
           )
         ],
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Color(0xFFE91E8C)))
+          ? const Center(
+              child: CircularProgressIndicator(color: Color(0xFFE91E8C)))
           : SingleChildScrollView(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -85,7 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Hello, ${auth.userName}! 👋',
-                            style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold)),
                         const SizedBox(height: 4),
                         const Text('Ready for your skincare routine?',
                             style: TextStyle(color: Colors.white70)),
@@ -101,34 +108,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.pink.shade50, blurRadius: 10)],
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.pink.shade50, blurRadius: 10)
+                        ],
                       ),
                       child: Column(
                         children: [
-                          const Icon(Icons.person_add, size: 60, color: Color(0xFFE91E8C)),
+                          const Icon(Icons.person_add,
+                              size: 60, color: Color(0xFFE91E8C)),
                           const SizedBox(height: 12),
-                          const Text('Complete Your Profile', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          const Text('Complete Your Profile',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.bold)),
                           const SizedBox(height: 8),
-                          const Text('Set up your skin profile to get AI-powered recommendations',
-                              textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
+                          const Text(
+                              'Set up your skin profile to get AI-powered recommendations',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.grey)),
                           const SizedBox(height: 16),
                           ElevatedButton(
-                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileSetupScreen())),
+                            onPressed: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        const ProfileSetupScreen())),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFE91E8C),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12)),
                             ),
-                            child: const Text('Setup Profile', style: TextStyle(color: Colors.white)),
+                            child: const Text('Setup Profile',
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
                     ),
                   ] else ...[
                     const Text('What would you like to do?',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 16),
 
-                    // 3 Option Boxes
+                    // Edit Profile + My Routine
                     Row(
                       children: [
                         Expanded(
@@ -139,7 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: const Color(0xFF9C27B0),
                             onTap: () => Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => EditProfileScreen(profile: _profile!)),
+                              MaterialPageRoute(
+                                  builder: (_) =>
+                                      EditProfileScreen(profile: _profile!)),
                             ).then((_) => _loadData()),
                           ),
                         ),
@@ -154,7 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? () => Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => RoutineScreen(recommendation: _recommendation!)),
+                                          builder: (_) => RoutineScreen(
+                                              recommendation:
+                                                  _recommendation!)),
                                     )
                                 : null,
                           ),
@@ -163,41 +189,68 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 12),
 
-                    // Start Skincare Box (full width)
+                    // Start Your Skincare
                     _optionBoxWide(
                       icon: Icons.spa,
                       title: 'Start Your Skincare',
-                      subtitle: 'Log today\'s routine, products used & upload photo',
+                      subtitle:
+                          'Log today\'s routine, products used & upload photo',
                       color: const Color(0xFF4CAF50),
                       onTap: () => Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const SkincareLogScreen()),
+                        MaterialPageRoute(
+                            builder: (_) => const SkincareLogScreen()),
                       ),
                     ),
+                    const SizedBox(height: 12),
 
+                    // Community
+                    _optionBoxWide(
+                      icon: Icons.people_outline,
+                      title: 'Community',
+                      subtitle: 'Ask questions & help others with their skin',
+                      color: const Color(0xFF2196F3),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const CommunityScreen()),
+                      ),
+                    ),
                     const SizedBox(height: 24),
 
-                    // Quick stats
-                    const Text('Your Skin Profile', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    // Your Skin Profile
+                    const Text('Your Skin Profile',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [BoxShadow(color: Colors.pink.shade50, blurRadius: 10)],
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.pink.shade50, blurRadius: 10)
+                        ],
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _profileChip(Icons.face, _profile!['skinType']),
-                          _profileChip(Icons.monetization_on, '₹${_profile!['budget']}'),
-                          _profileChip(Icons.flag, '${(_profile!['skinGoals'] as List).length} Goals'),
+                          _profileChip(
+                              Icons.face, _profile!['skinType']),
+                          _profileChip(Icons.monetization_on,
+                              '₹${_profile!['budget']}'),
+                          _profileChip(Icons.flag,
+                              '${(_profile!['skinGoals'] as List).length} Goals'),
                         ],
                       ),
                     ),
-                        const SizedBox(height: 24),
-                    const Text('Monthly Consistency', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    const SizedBox(height: 24),
+
+                    // Monthly Consistency
+                    const Text('Monthly Consistency',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
                     const ConsistencyHeatmapWidget(),
                   ],
@@ -221,7 +274,9 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: color.withOpacity(0.15), blurRadius: 10)],
+          boxShadow: [
+            BoxShadow(color: color.withOpacity(0.15), blurRadius: 10)
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,9 +290,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Icon(icon, color: color, size: 28),
             ),
             const SizedBox(height: 12),
-            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            Text(title,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 14)),
             const SizedBox(height: 4),
-            Text(subtitle, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+            Text(subtitle,
+                style:
+                    const TextStyle(color: Colors.grey, fontSize: 12)),
           ],
         ),
       ),
@@ -259,7 +318,9 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: color.withOpacity(0.15), blurRadius: 10)],
+          boxShadow: [
+            BoxShadow(color: color.withOpacity(0.15), blurRadius: 10)
+          ],
         ),
         child: Row(
           children: [
@@ -276,13 +337,18 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16)),
                   const SizedBox(height: 4),
-                  Text(subtitle, style: const TextStyle(color: Colors.grey, fontSize: 13)),
+                  Text(subtitle,
+                      style: const TextStyle(
+                          color: Colors.grey, fontSize: 13)),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 16),
+            const Icon(Icons.arrow_forward_ios,
+                color: Colors.grey, size: 16),
           ],
         ),
       ),

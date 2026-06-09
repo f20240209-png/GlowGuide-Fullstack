@@ -179,14 +179,106 @@ List<String> _extractIngredientKeywords(List<String> productNames) {
     }
   }
 
-  Future<void> _pickPhoto() async {
-    final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery, imageQuality: 85);
-    if (picked != null) {
-      final bytes = await picked.readAsBytes();
-      setState(() => _photoBytes = bytes);
-    }
+ Future<void> _pickPhoto() async {
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (_) => Container(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 40,
+            height: 4,
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Upload Photo',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _getImage(ImageSource.camera);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF0F5),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFE91E8C).withValues(alpha: 0.3)),
+                    ),
+                    child: const Column(
+                      children: [
+                        Icon(Icons.camera_alt, color: Color(0xFFE91E8C), size: 36),
+                        SizedBox(height: 8),
+                        Text('Camera', style: TextStyle(
+                          color: Color(0xFFE91E8C),
+                          fontWeight: FontWeight.w600,
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    Navigator.pop(context);
+                    await _getImage(ImageSource.gallery);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFF0F5),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: const Color(0xFFE91E8C).withValues(alpha: 0.3)),
+                    ),
+                    child: const Column(
+                      children: [
+                        Icon(Icons.photo_library, color: Color(0xFFE91E8C), size: 36),
+                        SizedBox(height: 8),
+                        Text('Gallery', style: TextStyle(
+                          color: Color(0xFFE91E8C),
+                          fontWeight: FontWeight.w600,
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+        ],
+      ),
+    ),
+  );
+}
+
+Future<void> _getImage(ImageSource source) async {
+  final picker = ImagePicker();
+  final picked = await picker.pickImage(
+    source: source,
+    imageQuality: 85,
+  );
+  if (picked != null) {
+    final bytes = await picked.readAsBytes();
+    setState(() => _photoBytes = bytes);
   }
+}
 
   Future<void> _saveLog() async {
     final hasAny = _selectedProducts.values.any((p) => p.isNotEmpty);
