@@ -1,54 +1,52 @@
 const { PrismaClient } = require('../../prisma/generated/prisma/index.js');
-
 const prisma = new PrismaClient();
 
-// Create Profile
+// ─── Create / Update Profile (upsert) ─────────────────────────────────────
 const createProfile = async (req, res) => {
   try {
     const { age, gender, skinType, skinGoals, budget, currentProducts, currentRoutine } = req.body;
     const userId = req.userId;
 
-    // Check if profile already exists
-    const existingProfile = await prisma.profile.findUnique({ where: { userId } });
-    if (existingProfile) {
-      return res.status(400).json({ message: 'Profile already exists. Use PUT to update.' });
-    }
-
-    const profile = await prisma.profile.create({
-      data: {
-        userId,
-        age,
-        gender,
-        skinType,
-        skinGoals: JSON.stringify(skinGoals),
+    const profile = await prisma.profile.upsert({
+      where: { userId },
+      update: {
+        age, gender, skinType,
+        skinGoals:       JSON.stringify(skinGoals),
         budget,
-        currentProducts: currentProducts ? JSON.stringify(currentProducts) : null,
-        currentRoutine: currentRoutine || null
-      }
+        currentProducts: currentProducts ? JSON.stringify(currentProducts) : '[]',
+        currentRoutine:  currentRoutine || null,
+      },
+      create: {
+        userId, age, gender, skinType,
+        skinGoals:       JSON.stringify(skinGoals),
+        budget,
+        currentProducts: currentProducts ? JSON.stringify(currentProducts) : '[]',
+        currentRoutine:  currentRoutine || null,
+      },
     });
 
     res.status(201).json({
-      message: 'Profile created successfully',
+      message: 'Profile saved successfully',
       profile: {
         ...profile,
-        skinGoals: JSON.parse(profile.skinGoals),
-        currentProducts: profile.currentProducts ? JSON.parse(profile.currentProducts) : null
-      }
+        skinGoals:       JSON.parse(profile.skinGoals),
+        currentProducts: profile.currentProducts ? JSON.parse(profile.currentProducts) : [],
+      },
     });
-
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-// Get Profile
+// ─── Get Profile ───────────────────────────────────────────────────────────
 const getProfile = async (req, res) => {
   try {
     const userId = req.userId;
 
+    // DO NOT include recommendation here — it has new fields that may not
+    // be migrated on production DB yet. Recommendation is fetched separately.
     const profile = await prisma.profile.findUnique({
       where: { userId },
-      include: { recommendation: true }
     });
 
     if (!profile) {
@@ -57,54 +55,57 @@ const getProfile = async (req, res) => {
 
     res.json({
       ...profile,
-      skinGoals: JSON.parse(profile.skinGoals),
-      currentProducts: profile.currentProducts ? JSON.parse(profile.currentProducts) : null,
-      recommendation: profile.recommendation ? {
-        ...profile.recommendation,
-        routine: JSON.parse(profile.recommendation.routine),
-        products: JSON.parse(profile.recommendation.products)
-      } : null
+      skinGoals:       JSON.parse(profile.skinGoals),
+      currentProducts: profile.currentProducts
+          ? JSON.parse(profile.currentProducts)
+          : [],
     });
-
   } catch (error) {
+    console.error('getProfile error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-// Update Profile
+// ─── Update Profile ────────────────────────────────────────────────────────
 const updateProfile = async (req, res) => {
   try {
     const { age, gender, skinType, skinGoals, budget, currentProducts, currentRoutine } = req.body;
     const userId = req.userId;
 
-    const profile = await prisma.profile.update({
+    const profile = await prisma.profile.upsert({
       where: { userId },
-      data: {
-        age,
-        gender,
-        skinType,
-        skinGoals: JSON.stringify(skinGoals),
+      update: {
+        age, gender, skinType,
+        skinGoals:       JSON.stringify(skinGoals),
         budget,
-        currentProducts: currentProducts ? JSON.stringify(currentProducts) : null,
-        currentRoutine: currentRoutine || null
-      }
+        currentProducts: currentProducts ? JSON.stringify(currentProducts) : '[]',
+        currentRoutine:  currentRoutine || null,
+      },
+      create: {
+        userId, age, gender, skinType,
+        skinGoals:       JSON.stringify(skinGoals),
+        budget,
+        currentProducts: currentProducts ? JSON.stringify(currentProducts) : '[]',
+        currentRoutine:  currentRoutine || null,
+      },
     });
 
     res.json({
       message: 'Profile updated successfully',
       profile: {
         ...profile,
-        skinGoals: JSON.parse(profile.skinGoals),
-        currentProducts: profile.currentProducts ? JSON.parse(profile.currentProducts) : null
-      }
+        skinGoals:       JSON.parse(profile.skinGoals),
+        currentProducts: profile.currentProducts
+            ? JSON.parse(profile.currentProducts)
+            : [],
+      },
     });
-
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
-// Search products by name
+// ─── Search Products ───────────────────────────────────────────────────────
 const searchProducts = async (req, res) => {
   try {
     const { query } = req.query;
@@ -117,17 +118,11 @@ const searchProducts = async (req, res) => {
         OR: [
           { name: { contains: query } },
           { brand: { contains: query } },
-          { category: { contains: query } }
-        ]
+          { category: { contains: query } },
+        ],
       },
-      select: {
-        id: true,
-        name: true,
-        brand: true,
-        category: true,
-        price: true
-      },
-      take: 10
+      select: { id: true, name: true, brand: true, category: true, price: true },
+      take: 10,
     });
 
     res.json({ products });
@@ -137,4 +132,3 @@ const searchProducts = async (req, res) => {
 };
 
 module.exports = { createProfile, getProfile, updateProfile, searchProducts };
-

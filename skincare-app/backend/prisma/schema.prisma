@@ -20,6 +20,8 @@ model User {
   createdAt    DateTime      @default(now())
   profile      Profile?
   skincareLogs SkincareLog[]
+  communityPosts   CommunityPost[]  
+  communityAnswers CommunityAnswer[] 
 }
 
 model Profile {
@@ -83,10 +85,38 @@ model SkincareLog {
 }
 
 model Ingredient_Conflict {
-  id             Int      @id @default(autoincrement())
-  ingredientA    String
-  ingredientB    String
-  severityLevel  String   // "High", "Medium"
-  warningMessage String   @db.Text
-  createdAt      DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  ingredient_a    String
+  ingredient_b    String
+  severity_level  String
+  warning_message String   @db.Text
+  createdAt       DateTime @default(now())
+
+  @@unique([ingredient_a, ingredient_b])
+}
+
+model CommunityPost {
+  id          Int               @id @default(autoincrement())
+  userId      Int
+  user        User              @relation(fields: [userId], references: [id])
+  question    String            @db.Text
+  details     String?           @db.Text
+  category    String
+  skinType    String?
+  isAnonymous Boolean           @default(true)
+  likes       Int               @default(0)
+  createdAt   DateTime          @default(now())
+  answers     CommunityAnswer[]
+}
+
+model CommunityAnswer {
+  id          Int           @id @default(autoincrement())
+  postId      Int
+  post        CommunityPost @relation(fields: [postId], references: [id])
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  answer      String        @db.Text
+  isAnonymous Boolean       @default(true)
+  isHelpful   Int           @default(0)
+  createdAt   DateTime      @default(now())
 }
