@@ -2,7 +2,6 @@ const { PrismaClient } = require('../../prisma/generated/prisma/index.js');
 const prisma = new PrismaClient();
 
 // ─── GET all posts (paginated) ─────────────────────────────────────────────
-// GET /api/community/posts?page=1&category=acne
 const getPosts = async (req, res) => {
   try {
     const page     = parseInt(req.query.page) || 1;
@@ -45,7 +44,6 @@ const getPosts = async (req, res) => {
 };
 
 // ─── GET single post with all answers ─────────────────────────────────────
-// GET /api/community/posts/:id
 const getPostById = async (req, res) => {
   try {
     const post = await prisma.communityPost.findUnique({
@@ -62,15 +60,15 @@ const getPostById = async (req, res) => {
     if (!post) return res.status(404).json({ message: 'Post not found' });
 
     res.json({
-      id:          post.id,
-      question:    post.question,
-      details:     post.details,
-      category:    post.category,
-      skinType:    post.skinType,
-      likes:       post.likes,
-      createdAt:   post.createdAt,
-      author:      post.isAnonymous ? 'Anonymous' : post.user.name,
-      answers:     post.answers.map(a => ({
+      id:        post.id,
+      question:  post.question,
+      details:   post.details,
+      category:  post.category,
+      skinType:  post.skinType,
+      likes:     post.likes,
+      createdAt: post.createdAt,
+      author:    post.isAnonymous ? 'Anonymous' : post.user.name,
+      answers:   post.answers.map(a => ({
         id:        a.id,
         answer:    a.answer,
         isHelpful: a.isHelpful,
@@ -84,23 +82,29 @@ const getPostById = async (req, res) => {
 };
 
 // ─── GET current user's own posts ─────────────────────────────────────────
-// GET /api/community/my-posts
+// FIX: added user include and all required fields for CommunityPost.fromJson
 const getMyPosts = async (req, res) => {
   try {
     const posts = await prisma.communityPost.findMany({
       where:   { userId: req.userId },
       orderBy: { createdAt: 'desc' },
-      include: { answers: { select: { id: true } } },
+      include: {
+        answers: { select: { id: true } },
+        user:    { select: { name: true } }, // ← needed for author field
+      },
     });
 
     res.json({
       posts: posts.map(p => ({
         id:          p.id,
         question:    p.question,
+        details:     p.details,                                    // ← added
         category:    p.category,
+        skinType:    p.skinType,                                   // ← added
         likes:       p.likes,
         createdAt:   p.createdAt,
         answerCount: p.answers.length,
+        author:      p.isAnonymous ? 'Anonymous' : p.user.name,   // ← added
       })),
     });
   } catch (error) {
@@ -109,7 +113,6 @@ const getMyPosts = async (req, res) => {
 };
 
 // ─── CREATE a post ─────────────────────────────────────────────────────────
-// POST /api/community/posts
 const createPost = async (req, res) => {
   try {
     const { question, details, category, skinType, isAnonymous } = req.body;
@@ -142,7 +145,6 @@ const createPost = async (req, res) => {
 };
 
 // ─── ANSWER a post ─────────────────────────────────────────────────────────
-// POST /api/community/posts/:id/answer
 const answerPost = async (req, res) => {
   try {
     const { answer, isAnonymous } = req.body;
@@ -178,7 +180,6 @@ const answerPost = async (req, res) => {
 };
 
 // ─── LIKE a post ───────────────────────────────────────────────────────────
-// POST /api/community/posts/:id/like
 const likePost = async (req, res) => {
   try {
     const post = await prisma.communityPost.update({
@@ -192,7 +193,6 @@ const likePost = async (req, res) => {
 };
 
 // ─── MARK answer as helpful ────────────────────────────────────────────────
-// POST /api/community/answers/:id/helpful
 const markHelpful = async (req, res) => {
   try {
     const answer = await prisma.communityAnswer.update({
