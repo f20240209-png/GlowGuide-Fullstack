@@ -10,16 +10,18 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  name         String?
-  email        String?       @unique
-  password     String?
-  googleId     String?       @unique
-  phoneNumber  String?       @unique
-  isNewUser    Boolean       @default(true)
-  createdAt    DateTime      @default(now())
-  profile      Profile?
-  skincareLogs SkincareLog[]
+  id               Int               @id @default(autoincrement())
+  name             String?
+  email            String?           @unique
+  password         String?
+  googleId         String?           @unique
+  phoneNumber      String?           @unique
+  isNewUser        Boolean           @default(true)
+  createdAt        DateTime          @default(now())
+  profile          Profile?
+  skincareLogs     SkincareLog[]
+  communityPosts   CommunityPost[]
+  communityAnswers CommunityAnswer[]
 }
 
 model Profile {
@@ -87,7 +89,35 @@ model Ingredient_Conflict {
   id             Int      @id @default(autoincrement())
   ingredientA    String
   ingredientB    String
-  severityLevel  String // "High", "Medium"
+  severityLevel  String
   warningMessage String   @db.Text
   createdAt      DateTime @default(now())
+
+  @@unique([ingredientA, ingredientB])
+}
+
+model CommunityPost {
+  id          Int               @id @default(autoincrement())
+  userId      Int
+  user        User              @relation(fields: [userId], references: [id])
+  question    String            @db.Text
+  details     String?           @db.Text
+  category    String
+  skinType    String?
+  isAnonymous Boolean           @default(true)
+  likes       Int               @default(0)
+  createdAt   DateTime          @default(now())
+  answers     CommunityAnswer[]
+}
+
+model CommunityAnswer {
+  id          Int           @id @default(autoincrement())
+  postId      Int
+  post        CommunityPost @relation(fields: [postId], references: [id])
+  userId      Int
+  user        User          @relation(fields: [userId], references: [id])
+  answer      String        @db.Text
+  isAnonymous Boolean       @default(true)
+  isHelpful   Int           @default(0)
+  createdAt   DateTime      @default(now())
 }

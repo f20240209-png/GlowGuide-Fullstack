@@ -85,14 +85,14 @@ model SkincareLog {
 }
 
 model Ingredient_Conflict {
-  id              Int      @id @default(autoincrement())
-  ingredient_a    String
-  ingredient_b    String
-  severity_level  String
-  warning_message String   @db.Text
-  createdAt       DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  ingredientA    String
+  ingredientB    String
+  severityLevel  String
+  warningMessage String   @db.Text
+  createdAt      DateTime @default(now())
 
-  @@unique([ingredient_a, ingredient_b])
+  @@unique([ingredientA, ingredientB])
 }
 
 model CommunityPost {

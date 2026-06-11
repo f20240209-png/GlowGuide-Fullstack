@@ -198,6 +198,28 @@ exports.Prisma.Ingredient_ConflictScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.CommunityPostScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  question: 'question',
+  details: 'details',
+  category: 'category',
+  skinType: 'skinType',
+  isAnonymous: 'isAnonymous',
+  likes: 'likes',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommunityAnswerScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  userId: 'userId',
+  answer: 'answer',
+  isAnonymous: 'isAnonymous',
+  isHelpful: 'isHelpful',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -259,6 +281,17 @@ exports.Prisma.Ingredient_ConflictOrderByRelevanceFieldEnum = {
   warningMessage: 'warningMessage'
 };
 
+exports.Prisma.CommunityPostOrderByRelevanceFieldEnum = {
+  question: 'question',
+  details: 'details',
+  category: 'category',
+  skinType: 'skinType'
+};
+
+exports.Prisma.CommunityAnswerOrderByRelevanceFieldEnum = {
+  answer: 'answer'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -266,7 +299,9 @@ exports.Prisma.ModelName = {
   Recommendation: 'Recommendation',
   Product: 'Product',
   SkincareLog: 'SkincareLog',
-  Ingredient_Conflict: 'Ingredient_Conflict'
+  Ingredient_Conflict: 'Ingredient_Conflict',
+  CommunityPost: 'CommunityPost',
+  CommunityAnswer: 'CommunityAnswer'
 };
 
 /**
