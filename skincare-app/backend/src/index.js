@@ -9,6 +9,7 @@ const recommendationRoutes = require('./routes/recommendationRoutes');
 const skincareLogRoutes = require('./routes/skincareLogRoutes');
 const ingredientRoutes = require('./routes/ingredientRoutes');
 const communityRoutes = require('./routes/communityRoutes');
+const friendRoutes = require('./routes/friendRoutes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/logs', skincareLogRoutes);
 app.use('/api', ingredientRoutes);
 app.use('/api/community', communityRoutes);
+app.use('/api', friendRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

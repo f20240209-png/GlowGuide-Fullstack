@@ -10,18 +10,22 @@ datasource db {
 }
 
 model User {
-  id               Int               @id @default(autoincrement())
-  name             String?
-  email            String?           @unique
-  password         String?
-  googleId         String?           @unique
-  phoneNumber      String?           @unique
-  isNewUser        Boolean           @default(true)
-  createdAt        DateTime          @default(now())
-  profile          Profile?
-  skincareLogs     SkincareLog[]
-  communityPosts   CommunityPost[]
-  communityAnswers CommunityAnswer[]
+  id                Int               @id @default(autoincrement())
+  name              String?
+  email             String?           @unique
+  password          String?
+  googleId          String?           @unique
+  phoneNumber       String?           @unique
+  isNewUser         Boolean           @default(true)
+  username          String?           @unique //
+  usernameChangedAt DateTime? //  (null = never changed)
+  createdAt         DateTime          @default(now())
+  profile           Profile?
+  skincareLogs      SkincareLog[]
+  communityPosts    CommunityPost[]
+  communityAnswers  CommunityAnswer[]
+  sentRequests      FriendRequest[]   @relation("SentRequests") // 
+  receivedRequests  FriendRequest[]   @relation("ReceivedRequests") // 
 }
 
 model Profile {
@@ -120,4 +124,18 @@ model CommunityAnswer {
   isAnonymous Boolean       @default(true)
   isHelpful   Int           @default(0)
   createdAt   DateTime      @default(now())
+}
+
+model FriendRequest {
+  id         Int      @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  status     String   @default("PENDING") // PENDING, ACCEPTED, REJECTED
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  sender   User @relation("SentRequests", fields: [senderId], references: [id])
+  receiver User @relation("ReceivedRequests", fields: [receiverId], references: [id])
+
+  @@unique([senderId, receiverId])
 }

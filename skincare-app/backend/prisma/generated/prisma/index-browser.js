@@ -129,6 +129,8 @@ exports.Prisma.UserScalarFieldEnum = {
   googleId: 'googleId',
   phoneNumber: 'phoneNumber',
   isNewUser: 'isNewUser',
+  username: 'username',
+  usernameChangedAt: 'usernameChangedAt',
   createdAt: 'createdAt'
 };
 
@@ -220,6 +222,15 @@ exports.Prisma.CommunityAnswerScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FriendRequestScalarFieldEnum = {
+  id: 'id',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -235,7 +246,8 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   password: 'password',
   googleId: 'googleId',
-  phoneNumber: 'phoneNumber'
+  phoneNumber: 'phoneNumber',
+  username: 'username'
 };
 
 exports.Prisma.ProfileOrderByRelevanceFieldEnum = {
@@ -292,6 +304,10 @@ exports.Prisma.CommunityAnswerOrderByRelevanceFieldEnum = {
   answer: 'answer'
 };
 
+exports.Prisma.FriendRequestOrderByRelevanceFieldEnum = {
+  status: 'status'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -301,7 +317,8 @@ exports.Prisma.ModelName = {
   SkincareLog: 'SkincareLog',
   Ingredient_Conflict: 'Ingredient_Conflict',
   CommunityPost: 'CommunityPost',
-  CommunityAnswer: 'CommunityAnswer'
+  CommunityAnswer: 'CommunityAnswer',
+  FriendRequest: 'FriendRequest'
 };
 
 /**
