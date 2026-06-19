@@ -9,7 +9,7 @@ router.post('/', protect, createProfile);
 router.get('/', protect, getProfile);
 router.put('/', protect, updateProfile);
 router.get('/search-products', searchProducts);
-router.get('/check-username', protect, checkUsername);
+router.get('/check-username', checkUsername);
 router.post('/username',      protect, setUsername);
 
 module.exports = router;
