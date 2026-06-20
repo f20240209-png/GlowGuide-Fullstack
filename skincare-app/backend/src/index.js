@@ -14,10 +14,35 @@ const friendRoutes = require('./routes/friendRoutes');
 const app = express();
 
 app.use(cors({
-  origin: ['http://localhost:57132', 'http://localhost:3000', 'http://localhost','https://inquisitive-clafoutis-600746.netlify.app'],
-  credentials: true
-}));
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
 
+    const allowedOrigins = [
+      'http://localhost:57132',
+      'http://localhost:3000',
+      'http://localhost',
+      'https://inquisitive-clafoutis-600746.netlify.app',
+    ];
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Allow any netlify.app subdomain (covers preview deploys + mobile)
+    if (origin.endsWith('.netlify.app')) {
+      return callback(null, true);
+    }
+
+    // Allow any localhost port (covers flutter dev on any port)
+    if (origin.startsWith('http://localhost')) {
+      return callback(null, true);
+    }
+
+    callback(new Error('Not allowed by CORS: ' + origin));
+  },
+  credentials: true,
+}));
 // Add these headers for Google Sign In popup to work
 app.use((req, res, next) => {
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
