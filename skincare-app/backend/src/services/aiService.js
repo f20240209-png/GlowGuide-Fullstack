@@ -182,7 +182,13 @@ const generateSkincareRecommendation = async (profile) => {
         "Tip 3"
       ],
       "dietAdvice": "diet advice for skin goals",
-      "warnings": "ingredients or practices to avoid"
+      "warnings": "ingredients or practices to avoid",
+"goodFoods": [
+  {"name": "Food name", "benefit": "why good for their skin goals"}
+],
+"avoidFoods": [
+  {"name": "Food name", "reason": "why bad for their skin goals"}
+]
     }
   `;
 
